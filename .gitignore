@@ -1,0 +1,5 @@
+/vendor
+.env.php
+debug.log
+my.log
+php_errors.log

@@ -1,0 +1,10 @@
+{
+    "require": {
+        "nesbot/carbon": "^2.39"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "modules/my-jwt"
+        }
+    }
+}
