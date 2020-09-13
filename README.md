@@ -4,6 +4,9 @@
  Até o momento, implementa:
  Cadastro de administradores com autenticação JWT;
 
+### Erros conhecidos:
+ *ATENÇÃO:* implementado verificação de duplicidade na alteração de administrador com _WHERE_ sem _params_. Risco de SQL injection. Corrigir isso em _AdminController->update()_ e implementando em _MyModel->parseWhere()_.
+
 ### Falta implementar:
  - Exclusão de administrador;
  - Visualização específica de um administrador (detalhes);
@@ -15,9 +18,6 @@
  - Clientes;
  - E mais...
  
-### Erros conhecidos:
- *ATENÇÃO:* implementado verificação de duplicidade na alteração de administrador com _WHERE_ sem _params_. Risco de SQL injection. Corrigir isso em _AdminController->update()_ e implementando em _MyModel->parseWhere()_.
-
 ## Composição:
  1) Módulo principal;
  2) Módulo express-php-lite (inspirado no *Express* para node.js);
