@@ -16,7 +16,7 @@
  - E mais...
  
 ### Erros conhecidos:
- *ATENÇÃO:* implementado verificação de duplicidade na alteração de administrador com _)_WHERE_ sem _params_. Risco de SQL injection. Corrigir isso em _AdminController->update()_ e implementando em _MyModel->parseWhere()_.
+ *ATENÇÃO:* implementado verificação de duplicidade na alteração de administrador com _WHERE_ sem _params_. Risco de SQL injection. Corrigir isso em _AdminController->update()_ e implementando em _MyModel->parseWhere()_.
 
 ## Composição:
  1) Módulo principal;
