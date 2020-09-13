@@ -51,24 +51,37 @@ class AdminController {
       $res->status(500)->send(['error'=>'Database connection failure.']);
     }
     
-    $found = $admin->findByPk($req->userId);
-    if (!$found) {
+    $me = $admin->findByPk($req->userId);
+    if (!$me) {
       $res->status(500)->send(['message'=>'Invalid token or User not found.']);
     }
     
-    if ($found['status']==='I') {
+    if ($me['status']==='I') {
       $res->status(401)->send(['message'=>'Access denied.']);
     }
 
-    if (!in_array($found['type'], [
+    if (!in_array($me['type'], [
       Admin::TYPE_DEV, 
       Admin::TYPE_ADMIN
     ])) {
       $res->status(401)->send(['message'=>'You do not have permission.']);
     }
-    
+   
     $data = $req->body();
-    
+
+    switch ($me['type']) {
+      case Admin::TYPE_ADMIN:
+        // Para Administradores permite apenas inclusão de Administradores e Operadores
+        $allowTypes = [
+          Admin::TYPE_ADMIN,
+          Admin::TYPE_OPERATOR
+        ];
+        if (isset($data['type']) && !in_array($data['type'], $allowTypes)) {
+          $res->status(401)->send(['message'=>'You do not have permission.']);
+        }
+      break;
+    }
+
     if (!isset($data['email']) || !$data['email']) {
       $res->status(402)->send(['error'=>'Missin email.']);
     }
