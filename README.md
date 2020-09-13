@@ -72,7 +72,7 @@
   *As seguintes rotas requerem autenticação:*
 
     put /admin/:id (modifica um administrador pelo identificador)
-    get /admin (Lista totos os administradores)
+    get /admin (Lista todos os administradores)
     post /admin (adiciona novo administrador)
 
 
