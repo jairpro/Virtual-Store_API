@@ -30,7 +30,6 @@ class AdminController {
     }
 
     $all = $admin->findAll([
-      //'attributes' => 'id,user,name,email,status,type,created_at,updated_at'
       'attributes' => ['id','user','name','email','status','type','created_at','updated_at']
     ]);
     if (!$all) {
@@ -254,6 +253,41 @@ class AdminController {
       default:
         $res->status(401)->send(['message'=>'You do not have permission.']);
       break;
+    }
+
+    /*
+    $search = [];
+    if (isset($data['email'])) {
+      $search['email'] = $data['email'];
+    }
+    if (isset($data['user'])) {
+      $search['user'] = $data['user'];
+    }
+    if (isset($data['id'])) {
+      $search['id'] = $data['id'];
+    }
+    $search = [
+      'ne' => ['id'=> $target['id']],
+      'or' => $search,
+    ];
+    */
+    $search = [];
+    if (isset($data['email'])) {
+      $search[] ="email='".$data['email']."'";
+    }
+    if (isset($data['user'])) {
+      $search[] = "user='".$data['user']."'";
+    }
+    if (isset($data['id'])) {
+      $search[] = "id='".$data['id']."'";
+    }
+    if (count($search)>0) {
+      $search = "id!='".$target['id']."' AND (".implode(" OR ",$search).")";
+
+      $found = $model->findOne($search);
+      if ($found && $found['id']!==$target['id']) {
+        $res->status(400)->send(['error'=>'User already exists.']);
+      }
     }
 
     $result = $model->update($data);

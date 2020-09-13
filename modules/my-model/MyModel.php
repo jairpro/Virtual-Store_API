@@ -156,8 +156,15 @@ class MyModel {
   }
 
   function findOne($options) {
-    $parse = $this::parseOptions($options);
-    extract($parse);
+    if (is_string($options)) {
+      $select = '*';
+      $where = "WHERE $options";
+      $params = null;
+    }
+    else {
+      $parse = $this::parseOptions($options);
+      extract($parse);
+    }
 
     $tableName = $this->tableName;
     $sql = "
@@ -182,8 +189,8 @@ class MyModel {
     if (is_string($options)) {
       $pre = explode(",", $options);
       $data = [];
-      foreach($pre as $index => $element) {
-        $def = explode("=", $pre);
+      foreach($pre as $element) {
+        $def = explode("=", $element);
         if (!isset($def[0]) 
         || !isset($def[1])
         ) {
