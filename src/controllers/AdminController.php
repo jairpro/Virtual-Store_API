@@ -10,12 +10,12 @@ class AdminController {
     $admin = new Admin();
     
     if (!$admin->setup()) {
-      $res->status(500)->send(['message'=>'Database connection failure.']);
+      $res->status(500)->send(['error'=>'Database connection failure.']);
     }
 
     $found = $admin->findByPk($req->userId);
     if (!$found) {
-      $res->status(500)->send(['message'=>'User not found.']);
+      $res->status(500)->send(['error'=>'Invalid token or user not found.']);
     }
     
     if ($found['status']==='I') {
@@ -34,7 +34,7 @@ class AdminController {
       'attributes' => ['id','user','name','email','status','type','created_at','updated_at']
     ]);
     if (!$all) {
-      $res->status(500)->send(['message'=>'Request failure.']);
+      $res->status(500)->send(['error'=>'Request failure.']);
     }
 
     $res->send($all);
@@ -48,12 +48,12 @@ class AdminController {
     $admin = new Admin();
 
     if (!$admin->setup()) {
-      $res->status(500)->send(['message'=>'Database connection failure.']);
+      $res->status(500)->send(['error'=>'Database connection failure.']);
     }
     
     $found = $admin->findByPk($req->userId);
     if (!$found) {
-      $res->status(500)->send(['message'=>'User not found.']);
+      $res->status(500)->send(['message'=>'Invalid token or User not found.']);
     }
     
     if ($found['status']==='I') {
@@ -70,20 +70,35 @@ class AdminController {
     $data = $req->body();
     
     if (!isset($data['email']) || !$data['email']) {
-      $res->status(402)->send(['message'=>'Missin email.']);
+      $res->status(402)->send(['error'=>'Missin email.']);
     }
 
     $password = isset($data['password']) ? $data['password'] : false;
     if (!$password) {
-      $res->status(402)->send(['message'=>'Missin password.']);
+      $res->status(402)->send(['error'=>'Missin password.']);
     }
     unset($data['password']);
     $data['hash'] = password_hash($password, PASSWORD_BCRYPT);
 
+    $search = [];
+    if (isset($data['email'])) {
+      $search['email'] = $data['email'];
+    }
+    if (isset($data['user'])) {
+      $search['user'] = $data['user'];
+    }
+    if (isset($data['id'])) {
+      $search['id'] = $data['id'];
+    }
+    $found = $admin->findOne($search);
+    if ($found) {
+      $res->status(400)->send(['error'=>'User already exists.']);
+    }
+
     $result = $admin->create($data);
     
     if (!$result) {
-      $res->status(500)->send(['message'=>'Operation failure.']);
+      $res->status(500)->send(['error'=>'Operation failure.']);
     }
 
     $res->send($result);
@@ -97,14 +112,13 @@ class AdminController {
     $model = new Admin();
 
     if (!$model->setup()) {
-      $res->status(500)->send(['message'=>'Database connection failure.']);
+      $res->status(500)->send(['error'=>'Database connection failure.']);
     }
 
     $me = $model->findByPk($req->userId);
-    //Debug::log(['$me->id',$me->id]);
 
     if (!$me) {
-      $res->status(500)->send(['message'=>'User not found.']);
+      $res->status(500)->send(['error'=>'Invalid token or user not found.']);
     }
     
     if ($me['status']==='I') {
@@ -127,7 +141,7 @@ class AdminController {
     $itsMe = $req->param('id')===$req->userId;
     $data = $req->body();
     if (!is_array($data) or empty($data)) {
-      $res->status(400)->send(['message' => "Invalid request body."]);
+      $res->status(400)->send(['error' => "Invalid request body."]);
     }
 
     $dataKeys= array_keys($data);
@@ -228,25 +242,6 @@ class AdminController {
         $res->status(401)->send(['message'=>'You do not have permission.']);
       break;
     }
-
-    /*
-    if (!isset($data['email']) || !$data['email']) {
-      $res->status(402)->send(['message'=>'Missin email.']);
-    }
-
-    $password = isset($data['password']) ? $data['password'] : false;
-    if (!$password) {
-      $res->status(402)->send(['message'=>'Missin password.']);
-    }
-    unset($data['password']);
-    $data['hash'] = password_hash($password, PASSWORD_BCRYPT);
-    //$res->send($data);
-
-    $result = $model->update($data);
-    
-    if (!$result) {
-      $res->status(500)->send(['message'=>'Operation failure.']);
-    }*/
 
     $result = $model->update($data);
 
