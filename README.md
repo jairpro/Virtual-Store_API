@@ -16,7 +16,6 @@
  - E mais...
  
 ### Erros conhecidos:
- - Não bloqueia administrador de _type A_ incluir/alterar campo para _type D_;
  - Não bloqueia duplicações; 
 
 

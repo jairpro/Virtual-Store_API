@@ -199,7 +199,7 @@ class AdminController {
             Admin::TYPE_ADMIN,
           ]; 
           // Se tentando alterar type além do permido
-          if (in_array("type", $data) && !in_array($data['type'], $allowDataTypes)) {
+          if (in_array("type", $dataKeys) && !in_array($data['type'], $allowDataTypes)) {
             $res->status(401)->send(['message'=>'You do not have permission.']);
           }
         }
