@@ -48,6 +48,14 @@ MY_JWT_TIMEOUT | Tempo para expirar o token em segundos a partir da hora atual
 
   2) Na pasta `/modules/my-model/` copiar `.config.example.php` para `.config.php` e definir as constantes de conexão ao banco de dados;
 
+Constante | Descrição
+--------- | ---------
+DB_DRIVER | Driver do banco de dados: *mysql* (padrão), *pgsql* (Postgres), *firebird* e *sqlite*. Poderá implementar outros drivers mais.
+DB_HOST | Nome do servidor do banco de dados. Padrão: *localhost*
+DB_NAME | Nome do banco de dados.
+DB_USER | Nome do usuário do banco de dados.
+DB_PASS | Senha do usuário do banco de dados.
+
   3) No banco de dados MySQL aplicar o(s) script(s) de criação da(s) tabela(s) em: `src/databases/create_tables/`
 
   4) No banco de dados MySQL aplicar o(s) script(s) de inserts em: `src/databases/inserts/`
@@ -65,8 +73,13 @@ MY_JWT_TIMEOUT | Tempo para expirar o token em segundos a partir da hora atual
 ### Configurar módulo principal:
  
  1) Copiar `.env.example.php` para `.env.php`;
-
+ 
  2) Configurar uma `.env.php` para o ambiente desejado;
+
+Constante | Descrição
+--------- | ---------
+ENV | Ambiente do sistema: *development* (padrão), *prodution*. Esse valor afeta determinadas funcionalidades. Verifique no código.
+JWT_TESTS | Quando verdadeiro permite uso das rotas de testes do JWT.
 
  3) Executar os script SQL para criar as tabelas no banco de dados da pasta `/src/database/create_tables`;
 
