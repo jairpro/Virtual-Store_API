@@ -45,18 +45,14 @@
 
   2) Na pasta `/modules/my-model/` copiar `.config.example.php` para `.config.php` e definir as constantes de conexão ao banco de dados;
 
-  3) No banco de dados MySQL aplicar o(s) script(s) de criação da(s) tabela(s) em:
+  3) No banco de dados MySQL aplicar o(s) script(s) de criação da(s) tabela(s) em: `src/databases/create_tables/`
 
-      src/databases/create_tables/
+  4) No banco de dados MySQL aplicar o(s) script(s) de inserts em: `src/databases/inserts/`
 
-  4) No banco de dados MySQL aplicar o(s) script(s) de inserts em:
+  Assim será adicionado o usuário desenvolvedor, que permite o primeiro login na rota `POST /admin/login`:
   
-      src/databases/inserts/
-
-    Assim será adicionado o usuário desenvolvedor, que permite o primeiro login na rota `POST /admin/login`:
-  
-      user: dev
-      password: secret
+    user: dev
+    password: secret
 
   5) Como ainda não há alteração de senha pela API, tão logo, alterar diretamente o campo _hash_ de _admins_ com sua senha hash de algoritmo *Bcrypt*. Pode-se pesquisar um gerador online.
 
