@@ -32,7 +32,10 @@
 
  3) Configurar `.config.php`:
 
-  *MY_JWT_SECRET* -> Chave para gerar o JWT das requisições autenticadas da API;
+Constante | Descrição
+---
+MY_JWT_SECRET | Chave para gerar o JWT das requisições autenticadas da API
+MY_JWT_TIMEOUT | Tempo para expirar o token em segundos a partir da hora atual
     
   Dica: Sugere-se usar `MyJWT::generateKey()`.
   A constante *JWT_TESTES* (em `/.env.php`) com valor verdadeiro habilita uso da rota para gerar keys:
