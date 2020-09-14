@@ -33,7 +33,7 @@
  3) Configurar `.config.php`:
 
 Constante | Descrição
----
+--------- | ---------
 MY_JWT_SECRET | Chave para gerar o JWT das requisições autenticadas da API
 MY_JWT_TIMEOUT | Tempo para expirar o token em segundos a partir da hora atual
     
