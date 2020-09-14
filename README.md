@@ -46,6 +46,24 @@
 
   2) Na pasta `/modules/my-model/` copiar `.config.example.php` para `.config.php` e definir as constantes de conexão ao banco de dados;
 
+  3) No banco de dados MySQL aplicar o(s) script(s) de criação da(s) tabela(s) em:
+
+      src/databases/create_tables/
+
+  4) No banco de dados MySQL aplicar o(s) script(s) de inserts em:
+  
+      src/databases/inserts/
+
+    Assim será adicionado o usuário desenvolvedor, que permite o primeiro login na rota `POST /admin/login`:
+  
+      user: dev
+      password: secret
+
+  5) Como ainda não há alteração de senha pela API, tão logo, alterar diretamente o campo _hash_ de _admins_ com sua senha hash de algoritmo *Bcrypt*. Pode-se pesquisar um gerador online.
+
+  6) Alterar seu administrador (já pela rota `PUT /admin/:id`) e informar no campo email o seu próprio email para futura recuperação de senha pela API;
+
+
 ### Configurar módulo principal:
  
  1) Copiar `.env.example.php` para `.env.php`;
@@ -59,18 +77,17 @@
 
 ## Rotas:
 
-    get / (Home)
-    post /admin/login (entrada do administrador)
-  
-    get /util/jwt/validate (testa validação de token JWT)
-    get /util/jwt/generate-key (gera uma chave privada de token JWT)
-    get /util/jwt/generate-token (gera um token JWT)
-
-  *As seguintes rotas requerem autenticação:*
-
-    put /admin/:id (modifica um administrador pelo identificador)
-    get /admin (Lista todos os administradores)
-    post /admin (adiciona novo administrador)
+Caminho | Método | Descrição | JWT
+------- | ------ | --------- | ---
+/ | GET | Home |
+/admin/login | POST | Entrada do administrador |
+/util/jwt/validate | GET | Testa validação de token JWT |
+/util/jwt/generate-key | GET | Gera uma chave privada de token JWT |
+/util/jwt/generate-token | GET | Gera um token JWT |
+/admin | GET | Lista todos os administradores | S
+/admin | POST | adiciona novo administrador | S
+/admin/:id | PUT | Modifica um administrador pelo identificador | S
+/admin/:id | DELETE | Exclui um administrador pelo identificador | S
 
 
 ## <a href="LICENSE">Licença MIT</a>

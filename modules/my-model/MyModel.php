@@ -15,6 +15,29 @@ class MyModel {
   function __construct() {
   }
 
+  function destroy($options=null) {
+    $id = $this->id;
+    $table = $this->tableName;
+
+    $params = null;
+
+    if (empty($options)) {
+      $options = [self::PK => $id];
+    }
+
+    $where = self::parseWhere($options, $params);
+    $sql = "
+      DELETE FROM $table
+      $where
+    ";
+
+    $destroy = $this->setup($params, $sql);
+    if (!$destroy) {
+      return false;
+    }
+    return true;
+  }
+
   function parseUpdateWhere($values, &$params=null) {
     $result = '';
     $where = '';
@@ -305,15 +328,17 @@ class MyModel {
 
     if ($where===null) {
       $fields = array_keys($data);
-      $values = array_values($data);
+      if (!in_array("attributes", $fields)) {
+        $values = array_values($data);
       
-      $we = [];
-      $params = [];
-      foreach ($fields as $index => $element) {
-        $we[] = "$element = :$element";
-        $params[":$element"] = $values[$index];
+        $we = [];
+        $params = [];
+        foreach ($fields as $index => $element) {
+          $we[] = "$element = :$element";
+          $params[":$element"] = $values[$index];
+        }
+        $where = implode(" $opValue ", $we);
       }
-      $where = implode(" $opValue ", $we);
     }
 
     $result = $where ? "WHERE $where" : "";
