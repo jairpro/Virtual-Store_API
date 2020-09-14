@@ -156,6 +156,7 @@ class MyModel {
   }
 
   function findOne($options) {
+    $parse = $this::parseOptions($options);
     extract($parse);
 
     $tableName = $this->tableName;
