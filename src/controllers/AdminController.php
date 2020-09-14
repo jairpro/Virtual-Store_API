@@ -29,9 +29,26 @@ class AdminController {
       $res->status(401)->send(['message'=>'You do not have permission.']);
     }
 
-    $all = $admin->findAll([
-      'attributes' => ['id','user','name','email','status','type','created_at','updated_at']
-    ]);
+    $options = [];
+    $options['attributes'] = [
+      'id',
+      'user',
+      'name',
+      'email',
+      'status',
+      'type',
+      'created_at',
+      'updated_at'
+    ];
+    if ($found['type']!==Admin::TYPE_DEV) {
+      $options['where'] = [
+        'ne' => [
+          "IFNULL(type,'')" => Admin::TYPE_DEV
+        ]
+      ];
+    }
+
+    $all = $admin->findAll($options);
     if (!$all) {
       $res->status(500)->send(['error'=>'Request failure.']);
     }
@@ -102,7 +119,9 @@ class AdminController {
     if (isset($data['id'])) {
       $search['id'] = $data['id'];
     }
-    $found = $admin->findOne($search);
+    $options = ['or' => $search];
+    
+    $found = $admin->findOne($options);
     if ($found) {
       $res->status(400)->send(['error'=>'User already exists.']);
     }
