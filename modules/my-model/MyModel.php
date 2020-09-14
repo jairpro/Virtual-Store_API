@@ -155,16 +155,9 @@ class MyModel {
     return $result;
   }
 
-  function findOne($options) {
-    if (is_string($options)) {
-      $select = '*';
-      $where = "WHERE $options";
-      $params = null;
-    }
-    else {
-      $parse = $this::parseOptions($options);
-      extract($parse);
-    }
+  function findOne($options, $op='AND') {
+    $parse = $this::parseOptions($options, $op);
+    extract($parse);
 
     $tableName = $this->tableName;
     $sql = "
@@ -224,27 +217,60 @@ class MyModel {
     return $attributes['fields'];
   }
   
-  static function parseWhere($options) {
-    $defaultOp = 'OR';
-    $opCond = $defaultOp;
+  static function parseWhere($options, $op='AND', &$params=null) {
+
+    function array_in_array($array) {
+      if (!is_array($array)) {
+        return null;
+      }
+      foreach ($array as $element) {
+        if (is_array($element)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function _parseWhere($w, $op, &$params=null) {
+      $result = "";
+      if (is_array($w)) {
+        $opComp = '=';
+        $opsComp = [
+          'eq' => '=',
+          'ne' => '!=',
+        ];
+        foreach ($w as $index => $element) {
+          $opSub = !array_key_exists($index, $opsComp) ? $opComp : $opsComp[$index];
+          if (is_array($element)) {
+            if (array_in_array($element)) {
+              $conds[] = "("._parseWhere($element, $index, $params).")";
+            }
+            else {
+              foreach ($element as $field=>$value) {
+                $comp = "$field $opSub ?";
+                $params[] = $value;
+                $conds[] = $comp;
+              }
+            }
+          } 
+        }
+        $result = implode(" $op ", $conds);
+      }
+      elseif (is_string($w)) {
+        $result = $w;
+      }
+      return $result;
+    } 
+
+    $op = $op;
 
     $data = self::parseData($options);
     
     $where = "";
+    $params = [];
     if (is_array($options) && array_key_exists('where', $options)) {
       $w = $options['where'];
-      if (is_array($w)) {
-        $keys = array_keys($w);
-        foreach ($keys as $key) {
-          $opComp = "=";
-          $comp = "$key $opComp :$key";
-          $conds[] = $comp; 
-        }
-        $where = implode(" $opCond ", $conds);
-      }
-      elseif (is_string($w)) {
-        $where = $w;
-      }
+      $where = _parseWhere($w, $op, $params);
     }
     else {
       $fields = array_keys($data);
@@ -256,17 +282,14 @@ class MyModel {
         $we[] = "$element = :$element";
         $params[":$element"] = $values[$index];
       }
-      $where = implode(" $opCond ", $we);
+      $where = implode(" $op ", $we);
     }
-    $where = $where ? "WHERE $where" : "";
     return $where;
   }
   
   static function parseParams($values) {
     $result = [];
 
-    //$values = self::parseData($options);
-    
     $keys = array_keys($values);
     
     foreach ($keys as $key) {
@@ -275,19 +298,14 @@ class MyModel {
     return $result;
   }
   
-  static function parseValues($options) {
-    return self::parseData($options);
-  }
-
-  static function parseOptions($options) {
+  static function parseOptions($options, $op='AND') {
     $attributes = self::parseAttributes($options);
     extract($attributes);
 
-    $where = self::parseWhere($options);
+    $params = [];
+    $where = self::parseWhere($options, $op, $params);
+    $where = $where ? "WHERE $where" : "";
 
-    $values = self::parseValues($options);
-    $params = self::parseParams($values);
-    
     $parse = [
       'fields' => $fields,
       'select' => $select,

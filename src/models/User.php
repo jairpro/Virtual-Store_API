@@ -8,6 +8,6 @@ class User extends MyModel {
       "user" => $idOrUserOrEmail,
       "email" => $idOrUserOrEmail
     );
-    return $this->findOne($options);
+    return $this->findOne($options, 'OR');
   }
 }

@@ -4,9 +4,6 @@
  Até o momento, implementa:
  Cadastro de administradores com autenticação JWT;
 
-### Erros conhecidos:
- *ATENÇÃO:* implementado verificação de duplicidade na alteração de administrador com _WHERE_ sem _params_. Risco de SQL injection. Corrigir isso em _AdminController->update()_ e implementando em _MyModel->parseWhere()_.
-
 ### Falta implementar:
  - Exclusão de administrador;
  - Visualização específica de um administrador (detalhes);

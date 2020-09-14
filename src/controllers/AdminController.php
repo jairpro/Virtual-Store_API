@@ -255,7 +255,7 @@ class AdminController {
       break;
     }
 
-    /*
+    
     $search = [];
     if (isset($data['email'])) {
       $search['email'] = $data['email'];
@@ -266,25 +266,15 @@ class AdminController {
     if (isset($data['id'])) {
       $search['id'] = $data['id'];
     }
-    $search = [
-      'ne' => ['id'=> $target['id']],
-      'or' => $search,
-    ];
-    */
-    $search = [];
-    if (isset($data['email'])) {
-      $search[] ="email='".$data['email']."'";
-    }
-    if (isset($data['user'])) {
-      $search[] = "user='".$data['user']."'";
-    }
-    if (isset($data['id'])) {
-      $search[] = "id='".$data['id']."'";
-    }
     if (count($search)>0) {
-      $search = "id!='".$target['id']."' AND (".implode(" OR ",$search).")";
+      $options = [];
+      
+      $options['where'] = [
+        'ne' => ['id'=> $target['id']],
+        'or' => $search,
+      ];
 
-      $found = $model->findOne($search);
+      $found = $model->findOne($options);
       if ($found && $found['id']!==$target['id']) {
         $res->status(400)->send(['error'=>'User already exists.']);
       }
