@@ -5,7 +5,6 @@
  Cadastro de administradores com autenticação JWT;
 
 ### Falta implementar:
- - Visualização específica de um administrador (detalhes);
  - Alteração de senha;
  - Recuperação de senha;
  - Dados do website;
@@ -96,6 +95,7 @@ Caminho | Método | Descrição | JWT
 /util/jwt/generate-token | GET | Gera um token JWT |
 /util/jwt/validate | GET | Testa validação de token JWT |
 /admin | GET | Lista todos os administradores | S
+/admin/:id | GET | Detalhes do administrador pelo identificador | S
 /admin | POST | adiciona novo administrador | S
 /admin/:id | PUT | Modifica um administrador pelo identificador | S
 /admin/:id | DELETE | Exclui um administrador pelo identificador | S

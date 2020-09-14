@@ -11,6 +11,7 @@
   $router->use(["Auth","execute"]);
 
   $router->get("/admin", ["AdminController","index"]);
+  $router->get("/admin/:id", ["AdminController","view"]);
   $router->post("/admin", ["AdminController","store"]);
   $router->put("/admin/:id", ["AdminController", 'update']);
   $router->delete("/admin/:id", ["AdminController","destroy"]);

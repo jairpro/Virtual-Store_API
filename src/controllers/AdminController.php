@@ -56,6 +56,66 @@ class AdminController {
     $res->send($all);
   }
 
+  function view($req, $res) {
+    if (!isset($req->userId)) {
+      $res->status(401)->send(['message'=>'Access denied.']);
+    }
+
+    $model = new Admin();
+
+    if (!$model->setup()) {
+      $res->status(500)->send(['error'=>'Database connection failure.']);
+    }
+
+    $me = $model->findByPk($req->userId);
+
+    if (!$me) {
+      $res->status(500)->send(['error'=>'Invalid token or user not found.']);
+    }
+    
+    if ($me['status']==='I') {
+      $res->status(401)->send(['message'=>'Access denied.']);
+    }
+
+    $target = $model->findByPk($req->param('id'));
+    if (!$target) {
+      $res->status(404)->send(['message'=>'User not found.']);
+    }
+
+     /**
+     *  Regra view por type:
+     * 
+     *  D: Desenv: Acesso total
+     *  A: Admin: Permite ecluir apenas Operadores
+     *  O: Operator: Exclusão bloqueada; 
+     * 
+     * */
+    $itsMe = $req->param('id')===$req->userId;
+    
+    switch ($me['type']) {
+      case Admin::TYPE_DEV:
+      break;
+      
+      case Admin::TYPE_ADMIN:
+        $denyTypes = [
+          Admin::TYPE_DEV,
+        ];
+        if (in_array($target['type'], $denyTypes)) {
+          $res->status(401)->send(['message'=>'Access denied.']);
+        }
+      break;
+
+      case Admin::TYPE_OPERATOR:
+        if (!$itsMe) {
+          $res->status(401)->send(['message'=>'Access denied.']);
+        }
+      break;
+    }
+    unset($target['hash']);
+
+    return $res->send($target);
+  }
+
   function store($req=null, $res=null) {
     if (!isset($req->userId)) {
       $res->status(401)->send(['message'=>'Access denied.']);
@@ -342,7 +402,6 @@ class AdminController {
      *  O: Operator: Exclusão bloqueada; 
      * 
      * */
-    $itsMe = $req->param('id')===$req->userId;
     
     switch ($me['type']) {
       case Admin::TYPE_DEV:
