@@ -15,6 +15,10 @@ class MyModel {
   function __construct() {
   }
 
+  function lastInsertId() {
+    return isset($this->dbh) ? $this->dbh->lastInsertId() : false;
+  } 
+
   function destroy($options=null) {
     $id = $this->id;
     $table = $this->tableName;

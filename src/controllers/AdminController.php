@@ -192,7 +192,20 @@ class AdminController {
       $res->status(500)->send(['error'=>'Operation failure.']);
     }
 
-    $res->send($result);
+    $id = $admin->lastInsertId();
+    if (!$result) {
+      $res->status(500)->send(['error'=>'The administrator was added but did not return his identifier.']);
+    }
+
+    $new = $admin->findByPk($id);
+    if (!$new) {
+      $res->status(500)->send(['error'=>'The administrator was added but did not return his data.']);
+    }
+
+    unset($new['hash']);
+    unset($new['updated_at']);
+
+    $res->send($new);
   }
 
   function update($req=null, $res=null) {
