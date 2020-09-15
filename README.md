@@ -66,7 +66,7 @@ DB_PASS | Senha do usuário do banco de dados.
 
   5) Alterar seu administrador (já pela rota `PUT /admin/:id`) e informar no campo email o seu próprio email para futura recuperação de senha pela API;
 
-NOTA: Novas migrations e seeds poderão ser criados. Para cada nova migrations criar o undo correspondente com mesmo nome de arquivo na pasta `src/database/migrations_undo/`.
+NOTA: Novas migrations e seeds poderão ser criados. Para cada nova migration criar o undo correspondente com mesmo nome de arquivo na pasta: `src/database/migrations_undo/`.
 
 
 ### Configurar módulo principal:
