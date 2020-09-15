@@ -55,18 +55,18 @@ DB_NAME | Nome do banco de dados.
 DB_USER | Nome do usuário do banco de dados.
 DB_PASS | Senha do usuário do banco de dados.
 
-  3) No banco de dados MySQL aplicar o(s) script(s) de criação da(s) tabela(s) em: `src/databases/create_tables/`
+  3) No banco de dados MySQL aplicar os scripts ordenadamente em: `src/database/migrations/` e em: `src/database/seeds/`
 
-  4) No banco de dados MySQL aplicar o(s) script(s) de inserts em: `src/databases/inserts/`
-
-  Assim será adicionado o usuário desenvolvedor, que permite o primeiro login na rota `POST /admin/login`:
+  Assim serão criadas as tabelas, atualizada as estruturas e adicionado o usuário desenvolvedor, que permite o primeiro login na rota `POST /admin/login`:
   
     user: dev
     password: secret
 
-  5) Como ainda não há alteração de senha pela API, tão logo, alterar diretamente o campo _hash_ de _admins_ com sua senha hash de algoritmo *Bcrypt*. Pode-se pesquisar um gerador online.
+  4) Como ainda não há alteração de senha pela API, tão logo, alterar diretamente o campo _hash_ de _admins_ com sua senha hash de algoritmo *Bcrypt*. Pode-se pesquisar um gerador online.
 
-  6) Alterar seu administrador (já pela rota `PUT /admin/:id`) e informar no campo email o seu próprio email para futura recuperação de senha pela API;
+  5) Alterar seu administrador (já pela rota `PUT /admin/:id`) e informar no campo email o seu próprio email para futura recuperação de senha pela API;
+
+NOTA: Novas migrations e seeds poderão ser criados. Para cada nova migrations criar o undo correspondente com mesmo nome de arquivo na pasta `src/database/migrations_undo/`.
 
 
 ### Configurar módulo principal:
