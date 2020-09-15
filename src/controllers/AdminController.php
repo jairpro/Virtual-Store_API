@@ -440,6 +440,6 @@ class AdminController {
       $res->status(401)->send(['error'=>'Delete failure.']);
     }
 
-    return $res->send(['message'=>'User  deleted successfully.']);
+    return $res->send(['message'=>'User deleted successfully.']);
   }
 }

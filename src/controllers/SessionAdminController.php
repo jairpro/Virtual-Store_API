@@ -32,7 +32,7 @@ class SessionAdminController {
     $hash = $found['hash'];
     
     if (!password_verify($password, $hash)) {
-      $res->status(401)->send(['message'=>"password not match."]);
+      $res->status(401)->send(['message'=>"Password not match."]);
     }
 
     //$name = $found['name'];

@@ -5,7 +5,6 @@
  Cadastro de administradores com autenticação JWT;
 
 ### Falta implementar:
- - Alteração de senha;
  - Recuperação de senha;
  - Dados do website;
  - Categorias;
@@ -96,9 +95,10 @@ Caminho | Método | Descrição | JWT
 /util/jwt/validate | GET | Testa validação de token JWT |
 /admin | GET | Lista todos os administradores | S
 /admin/:id | GET | Detalhes do administrador pelo identificador | S
-/admin | POST | adiciona novo administrador | S
+/admin | POST | Adiciona novo administrador | S
 /admin/:id | PUT | Modifica um administrador pelo identificador | S
 /admin/:id | DELETE | Exclui um administrador pelo identificador | S
+/admin/password | PUT | Modifica a senha do administrador | S
 
 
 ## <a href="LICENSE">Licença MIT</a>
