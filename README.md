@@ -61,9 +61,9 @@ DB_PASS | Senha do usuário do banco de dados.
     user: dev
     password: secret
 
-  4) Como ainda não há alteração de senha pela API, tão logo, alterar diretamente o campo _hash_ de _admins_ com sua senha hash de algoritmo *Bcrypt*. Pode-se pesquisar um gerador online.
+  4) Tão logo, alterar a senha pela rota `PUT /admin/password`.
 
-  5) Alterar seu administrador (já pela rota `PUT /admin/:id`) e informar no campo email o seu próprio email para futura recuperação de senha pela API;
+  5) Alterar seu administrador (já pela rota `PUT /admin/:id`) e informar no campo email o seu próprio email para possibilitar a recuperação de senha pela API;
 
 NOTA: Novas migrations e seeds poderão ser criados. Para cada nova migration criar o undo correspondente com mesmo nome de arquivo na pasta: `src/database/migrations_undo/`.
 
