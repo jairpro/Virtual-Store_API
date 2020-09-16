@@ -125,7 +125,7 @@ Caminho | Método | Descrição | JWT
 /util/jwt/generate-key | GET | Gera uma chave privada de Token JWT |
 /util/jwt/generate-token | GET | Gera um Token JWT |
 /util/jwt/validate | GET | Testa validação de Token JWT |
-/admin/forgot_password | POST | Solicita redefinição de senha por email| S
+/admin/forgot_password | POST | Solicita redefinição de senha por email|
 /admin/reset_password | PUT | Redefine a senha com Token de recuperação | S
 /admin/password | PUT | Modifica a senha do administrador | S
 /admin | GET | Lista todos os administradores | S
