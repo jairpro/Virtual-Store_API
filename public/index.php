@@ -4,6 +4,7 @@
   require_once "../.env.php";
   require_once "../modules/express-php-lite/autoload.php";
   require_once "../modules/my-jwt/autoload.php";
+  require_once "../modules/my-sendgrid/autoload.php";
   require_once "../src/autoload.php";
 
   Debug::cleanNext();

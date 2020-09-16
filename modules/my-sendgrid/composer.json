@@ -1,0 +1,10 @@
+{
+    "require": {
+        "sendgrid/sendgrid": "~7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "modules/my-sendgrid"
+        }
+    }
+}

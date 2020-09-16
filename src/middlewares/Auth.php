@@ -2,6 +2,12 @@
 
 class Auth {
 
+  protected $secret;
+
+  function __construct($secret=null) {
+    $this->secret = isset($secret) ? $secret : MY_JWT_SECRET;
+  }
+
   function execute($req, $res) {
     $req = $req ? $req : Request::getInstance();
     $res = $res ? $res : Response::getInstance();
@@ -19,7 +25,7 @@ class Auth {
     }
     
     $jwt = MyJWT::getInstance();
-    if (!$jwt->validate($token)) {
+    if (!$jwt->validate($token, $this->secret)) {
       $res->status(401)->json(['message' => $jwt->getMessage()]);
     }
   
@@ -28,5 +34,7 @@ class Auth {
     //$res->json($payload);
     $id = isset($payload['id']) ? $payload['id'] : (isset($payload['user_id']) ? $payload['user_id'] : false);
     $req->userId = $id;
+    
+    return true;
   }
 }
