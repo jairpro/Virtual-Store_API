@@ -6,6 +6,7 @@
  - Sessão do usuário com autenticação JWT e blacklist;
  - Níveis de acesso (Desenvolvedor, Administrador e Operador);
  - Recuperação de senhas (envio de e-mail com Sendgrid);
+ 
  [mais detalhes...](https://github.com/jairpro/Admin-API)
 
 ### Falta implementar:
