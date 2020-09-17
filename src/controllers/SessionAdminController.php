@@ -53,4 +53,15 @@ class SessionAdminController {
       ])
     ]);
   }
+
+  function destroy($req, $res) {
+    $bl = MyJwtBlacklist::getInstance();
+    
+    $revoke = $bl->revoke($req->token);
+    if (!$revoke) {
+      return $res->status(500)->send(['error'=>"The Token could not be revoked."]);
+    }
+
+    return $res->send(['messge'=>"User logged out."]);
+  }
 }

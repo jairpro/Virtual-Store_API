@@ -4,3 +4,4 @@ debug.log
 my.log
 php_errors.log
 /.vscode
+.blacklist

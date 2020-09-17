@@ -127,6 +127,7 @@ Caminho | Método | Descrição | JWT
 /util/jwt/validate | GET | Testa validação de Token JWT |
 /admin/forgot_password | POST | Solicita redefinição de senha por email|
 /admin/reset_password | PUT | Redefine a senha com Token de recuperação | S
+/admin/logout | DELETE | Finaliza sessão do adminitrador | S
 /admin/password | PUT | Modifica a senha do administrador | S
 /admin | GET | Lista todos os administradores | S
 /admin/:id | GET | Detalhes do administrador pelo identificador | S

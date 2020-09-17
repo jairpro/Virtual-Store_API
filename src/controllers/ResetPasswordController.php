@@ -32,6 +32,9 @@ class ResetPasswordController {
     if (!$update) {
       return $res->status(500)->send(['error'=>'Error updating password.']);
     }
+    
+    $bl = MyJwtBlacklist::getInstance();
+    $bl->revoke($req->token);
 
     return $res->send(['message'=>'Password has been updated!']);
   }
