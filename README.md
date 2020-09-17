@@ -1,15 +1,19 @@
-# Admin-API
- API REST MVC ORM JWT em PHP para admins.
+# Virtual-Store_API-REST
+ API REST em PHP para loja virtual.
 
  Até o momento, implementa:
- - API REST utilizando recursos HTTP 1.1;
- - Url amigávies;
- - Acesso ao banco de dados por ORM próprio (ampliável) usando PDO;
- - MySQL por padrão, podendo ser expandido para outros drivers;
  - Cadastro completo de usuários administradores;
  - Sessão do usuário com autenticação JWT e blacklist;
  - Níveis de acesso (Desenvolvedor, Administrador e Operador);
  - Recuperação de senhas (envio de e-mail com Sendgrid);
+ [mais detalhes...](https://github.com/jairpro/Admin-API)
+
+### Falta implementar:
+ - Dados do website;
+ - Categorias;
+ - Produtos;
+ - Clientes;
+ - E mais...
  
 ## Módulos:
  1) Principal;
