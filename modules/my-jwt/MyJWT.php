@@ -1,8 +1,8 @@
 <?php
 
 $dir = dirname(__FILE__)."/";
-require $dir.".config.php";
-require $dir.'vendor/autoload.php';
+require_once $dir.".config.php";
+require_once $dir.'vendor/autoload.php';
 
 use Carbon\Carbon;
 
